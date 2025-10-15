@@ -2,13 +2,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp } from "lucide-react";
 import { projects } from "@/data/portfolio-data";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export function Projects() {
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
-    <section id="projects" className="py-20 px-6">
+    <section id="projects" className="py-20 px-6" ref={ref}>
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-display font-semibold mb-4">
+        <div
+          className={`text-center mb-16 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <h2 className="text-3xl sm:text-4xl font-display font-semibold mb-4" data-testid="heading-projects">
             Featured Projects
           </h2>
           <div className="w-20 h-1 bg-primary mx-auto rounded-full"></div>
@@ -17,7 +24,11 @@ export function Projects() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          className={`grid md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           {projects.map((project, index) => (
             <Card
               key={project.id}

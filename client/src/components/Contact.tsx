@@ -4,10 +4,12 @@ import { Mail, Phone, MapPin, Linkedin, Github, Copy, Check } from "lucide-react
 import { contactInfo } from "@/data/portfolio-data";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export function Contact() {
   const { toast } = useToast();
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  const { ref, isVisible } = useScrollAnimation();
 
   const copyToClipboard = (text: string, field: string) => {
     navigator.clipboard.writeText(text);
@@ -20,10 +22,14 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 px-6">
+    <section id="contact" className="py-20 px-6" ref={ref}>
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-display font-semibold mb-4">
+        <div
+          className={`text-center mb-16 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <h2 className="text-3xl sm:text-4xl font-display font-semibold mb-4" data-testid="heading-contact">
             Get In Touch
           </h2>
           <div className="w-20 h-1 bg-primary mx-auto rounded-full"></div>
@@ -33,7 +39,11 @@ export function Contact() {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-6 mb-8">
+        <div
+          className={`grid sm:grid-cols-2 gap-6 mb-8 transition-all duration-700 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           {/* Email */}
           <Card className="p-6 hover-elevate transition-all duration-300">
             <div className="flex items-start gap-4">
@@ -41,8 +51,8 @@ export function Contact() {
                 <Mail className="h-5 w-5 text-primary" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-display font-semibold mb-1">Email</h3>
-                <p className="text-sm text-muted-foreground break-all mb-3">
+                <h3 className="font-display font-semibold mb-1" data-testid="heading-email">Email</h3>
+                <p className="text-sm text-muted-foreground break-all mb-3" data-testid="text-email">
                   {contactInfo.email}
                 </p>
                 <div className="flex gap-2">
@@ -78,8 +88,8 @@ export function Contact() {
                 <Phone className="h-5 w-5 text-primary" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-display font-semibold mb-1">Phone</h3>
-                <p className="text-sm text-muted-foreground mb-3">{contactInfo.phone}</p>
+                <h3 className="font-display font-semibold mb-1" data-testid="heading-phone">Phone</h3>
+                <p className="text-sm text-muted-foreground mb-3" data-testid="text-phone">{contactInfo.phone}</p>
                 <Button
                   size="sm"
                   variant="outline"
@@ -104,8 +114,8 @@ export function Contact() {
                 <MapPin className="h-5 w-5 text-primary" />
               </div>
               <div className="flex-1">
-                <h3 className="font-display font-semibold mb-1">Location</h3>
-                <p className="text-sm text-muted-foreground">{contactInfo.location}</p>
+                <h3 className="font-display font-semibold mb-1" data-testid="heading-location">Location</h3>
+                <p className="text-sm text-muted-foreground" data-testid="text-location">{contactInfo.location}</p>
               </div>
             </div>
           </Card>
@@ -149,7 +159,11 @@ export function Contact() {
         </div>
 
         {/* CTA */}
-        <div className="text-center">
+        <div
+          className={`text-center transition-all duration-700 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           <Card className="p-8 bg-primary/5 border-primary/20">
             <h3 className="text-xl font-display font-semibold mb-3">
               Ready to collaborate?

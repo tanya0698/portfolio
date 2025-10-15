@@ -2,19 +2,30 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Briefcase, MapPin, Calendar } from "lucide-react";
 import { workExperience } from "@/data/portfolio-data";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export function Experience() {
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
-    <section id="experience" className="py-20 px-6 bg-card/30">
+    <section id="experience" className="py-20 px-6 bg-card/30" ref={ref}>
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-display font-semibold mb-4">
+        <div
+          className={`text-center mb-16 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <h2 className="text-3xl sm:text-4xl font-display font-semibold mb-4" data-testid="heading-experience">
             Work Experience
           </h2>
           <div className="w-20 h-1 bg-primary mx-auto rounded-full"></div>
         </div>
 
-        <div className="space-y-8">
+        <div
+          className={`space-y-8 transition-all duration-700 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           {workExperience.map((exp, index) => (
             <Card
               key={exp.id}

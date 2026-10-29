@@ -1,0 +1,239 @@
+<title>Elton Chipuka Services</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+  /* Layout: a single column like WhatsApp's own catalogue list; tapping a row opens the full item. */
+  :root {
+    --bg: #0b0f14; --surface: #111a24; --surface-2: #16212d; --line: #1f2c39;
+    --fg: #e6edf3; --muted: #8b9bab; --accent: #2dd4bf; --accent-ink: #04201c; --tag: #a5b4fc;
+    --wa: #25d366; --wa-ink: #052e16; --backdrop: rgba(3, 6, 10, 0.72);
+    --sans: Inter, 'Segoe UI', system-ui, sans-serif; --mono: 'JetBrains Mono', Consolas, monospace;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #f3f6f7; --surface: #ffffff; --surface-2: #eef3f4; --line: #d9e2e5;
+      --fg: #0f1a20; --muted: #56676f; --accent: #0d8a7f; --accent-ink: #ffffff; --tag: #4f46e5;
+      --wa: #1a9e4b; --wa-ink: #ffffff; --backdrop: rgba(15, 26, 32, 0.45);
+      color-scheme: light;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f3f6f7; --surface: #ffffff; --surface-2: #eef3f4; --line: #d9e2e5;
+    --fg: #0f1a20; --muted: #56676f; --accent: #0d8a7f; --accent-ink: #ffffff; --tag: #4f46e5;
+    --wa: #1a9e4b; --wa-ink: #ffffff; --backdrop: rgba(15, 26, 32, 0.45);
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 var(--sans);
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 0 48px; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  .hero { padding-block: 56px 28px; display: grid; gap: 14px; }
+  .eyebrow, .tag, .code { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; }
+  .eyebrow { color: var(--accent); margin: 0; font-weight: 700; }
+  h1 { margin: 0; font-size: clamp(2rem, 6vw, 2.75rem); line-height: 1.1; letter-spacing: -0.02em; font-weight: 800; text-wrap: balance; }
+  .lede { margin: 0; color: var(--muted); max-width: 60ch; }
+  .contact { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 6px; }
+  .num { font-family: var(--mono); font-size: 0.9rem; color: var(--muted); user-select: all; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 10px 18px;
+    font: 600 0.95rem var(--sans); text-decoration: none; border: 1px solid transparent; cursor: pointer;
+  }
+  .btn svg { width: 18px; height: 18px; }
+  .btn-wa { background: var(--wa); color: var(--wa-ink); }
+  .btn-ghost { background: transparent; color: var(--fg); border-color: var(--line); }
+  .btn:hover { filter: brightness(1.08); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 8px 20px; }
+  .chip {
+    font: 500 0.85rem var(--sans); color: var(--muted); background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 6px 14px; cursor: pointer;
+  }
+  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+  .list { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+  .list li + li { border-top: 1px solid var(--line); }
+  .row {
+    width: 100%; display: grid; grid-template-columns: 88px minmax(0, 1fr) auto; gap: 16px; align-items: center;
+    padding: 14px 16px; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer;
+  }
+  .row:hover { background: var(--surface-2); }
+  .row img { width: 88px; height: 88px; border-radius: 10px; display: block; }
+  .row-text { display: grid; gap: 2px; min-width: 0; }
+  .tag { color: var(--tag); font-size: 0.7rem; }
+  .row-name { font-weight: 700; font-size: 1.05rem; line-height: 1.3; }
+  .row-pitch { color: var(--muted); font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .price { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .price small { color: var(--muted); font-weight: 500; font-size: 0.8em; }
+  .chev { color: var(--muted); width: 20px; height: 20px; }
+  .footnote { color: var(--muted); font-size: 0.85rem; margin-top: 16px; }
+  .notes { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); }
+  .notes h2 { margin: 0 0 10px; font: 700 0.8rem var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .notes ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; color: var(--muted); font-size: 0.9rem; max-width: 65ch; }
+
+  dialog {
+    width: min(860px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); padding: 0; border: 1px solid var(--line);
+    border-radius: 18px; background: var(--surface); color: var(--fg); overflow: auto;
+  }
+  dialog::backdrop { background: var(--backdrop); }
+  .detail { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); }
+  .detail img { width: 100%; aspect-ratio: 1; max-width: 100%; display: block; }
+  .d-body { padding: 24px 24px 20px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+  .d-head { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+  .d-body h2 { margin: 4px 0 0; font-size: 1.6rem; line-height: 1.15; letter-spacing: -0.01em; text-wrap: balance; }
+  .d-price { font-size: 1.4rem; margin: 0; }
+  .d-body p { margin: 0; }
+  .d-body h3 { margin: 4px 0 0; font-size: 0.8rem; font-family: var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .d-body ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+  .d-body li { display: flex; gap: 10px; }
+  .d-body li::before { content: '✓'; color: var(--accent); font-weight: 700; }
+  dl { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 16px; font-size: 0.95rem; }
+  dt { color: var(--muted); }
+  dd { margin: 0; }
+  .note { color: var(--muted); font-size: 0.85rem; }
+  .code { color: var(--muted); }
+  .d-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .d-nav { display: flex; justify-content: space-between; gap: 8px; border-top: 1px solid var(--line); padding-top: 14px; }
+  .icon-btn { background: var(--surface-2); color: var(--fg); border: 1px solid var(--line); border-radius: 999px; width: 36px; height: 36px; display: grid; place-items: center; cursor: pointer; flex: none; }
+  .icon-btn svg { width: 18px; height: 18px; }
+  .nav-btn { background: none; border: 0; color: var(--muted); font: 500 0.9rem var(--sans); cursor: pointer; padding: 4px 0; }
+  .nav-btn:hover { color: var(--fg); }
+  .nav-btn:disabled { visibility: hidden; }
+
+  @media (max-width: 640px) {
+    .hero { padding-block: 36px 20px; }
+    .row { grid-template-columns: 72px minmax(0, 1fr); gap: 12px; padding: 12px; }
+    .row img { width: 72px; height: 72px; }
+    .chev { display: none; }
+    .detail { grid-template-columns: minmax(0, 1fr); }
+    .d-body { padding: 18px 18px 16px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .row, .btn, .chip { transition: background-color 0.15s, filter 0.15s; }
+  }
+</style>
+
+<header class="wrap hero">
+  <p class="eyebrow">Services catalogue</p>
+  <h1>Elton Chipuka</h1>
+  <p class="lede">Full-stack developer in Harare, Zimbabwe. I build websites, online stores, business systems and mobile apps. Prices are starting prices in US dollars; message me for a quote that fits your requirements.</p>
+  <div class="contact">
+    <a class="btn btn-wa" href="https://wa.me/263787541207?text=Hi%20Elton%2C%20I%20saw%20your%20services%20catalogue%20and%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noreferrer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+      Chat on WhatsApp
+    </a>
+    <span class="num">+263 78 754 1207 · +263 71 830 1187</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="filters" id="filters" aria-label="Filter by category"></div>
+  <ul class="list" id="list"></ul>
+  <p class="footnote">Tap a service to see what's included, the timeline and the project it's based on.</p>
+  <section class="notes" aria-labelledby="notes-title">
+    <h2 id="notes-title">Pricing notes</h2>
+    <ul><li>All prices are starting prices in US dollars, not fixed quotes.</li><li>The final price depends on features, number of users, integrations, data migration and delivery timeline.</li><li>Hosting, domain renewals, GPS hardware, SIM and data charges, payment processing fees, SMS and WhatsApp charges, and paid third-party subscriptions are charged separately unless your written quote includes them.</li><li>For larger projects, I agree a written scope with you before giving the final quote.</li></ul>
+  </section>
+</main>
+
+<dialog id="detail" aria-labelledby="d-title"></dialog>
+
+<script>
+  const ITEMS = [{"code":"EC-WEB-01","tag":"Websites","name":"Business Website","price":300,"pitch":"A fast, professional website that sends enquiries straight to your WhatsApp.","features":["Up to 5 pages, designed mobile-first","WhatsApp chat button and contact form","Basic SEO: Google indexing, page titles, fast loading","Year-one hosting and .co.zw domain included"],"timeline":"1–2 weeks","extras":"Domain and hosting renewal from year two","proof":"My own portfolio site, built with React and TypeScript.","anchor":"","image":"images/01-ec-web-01.png","link":""},{"code":"EC-SHOP-01","tag":"E-commerce","name":"Online Store with Payments","price":600,"pitch":"Sell online with a product catalogue, cart and secure checkout.","features":["Paynow (EcoCash, cards), Stripe or PayPal","Quote requests and order tracking","Admin back office for products and orders"],"timeline":"3–5 weeks","extras":"Hosting, domain and payment processing fees","proof":"E-commerce and quotation platform for a curtain design and sales business.","anchor":"#projects","image":"images/02-ec-shop-01.png","link":""},{"code":"EC-ERP-01","tag":"Business systems","name":"Custom ERP / Business System","price":6000,"pitch":"One system to run your business, with single sign-on for every staff member.","features":["CRM, helpdesk, tasks, staff, assets, payments","Role-based access by department","Dashboards and PDF reports, works on phones"],"timeline":"2–4 months, delivered in phases","extras":"Hosting, data migration from old systems and third-party subscriptions","proof":"Enterprise ERP platform connecting multiple business services in one portal.","anchor":"#projects","image":"images/03-ec-erp-01.png","link":""},{"code":"EC-HELP-01","tag":"Business systems","name":"Helpdesk & Ticketing System","price":1500,"pitch":"Track every support request from open to closed, with nothing slipping through.","features":["Automatic assignment and SLA targets","Escalation when tickets run late","Email and real-time in-app notifications"],"timeline":"4–6 weeks","extras":"Hosting, and email or SMS charges","proof":"Helpdesk system that cut mean time to resolution by 25%.","anchor":"#projects","image":"images/04-ec-help-01.png","link":""},{"code":"EC-CRM-01","tag":"Business systems","name":"CRM & Customer Query System","price":1500,"pitch":"Log, route and resolve customer queries faster.","features":["Full customer and query history","SLA breach alerts","Live agent-performance dashboards"],"timeline":"4–6 weeks","extras":"Hosting, and email or SMS charges","proof":"Customer-care system handling 500+ queries a month, about 30% faster resolution.","anchor":"#projects","image":"images/05-ec-crm-01.png","link":""},{"code":"EC-FLOW-01","tag":"Automation","name":"Workflow & Approvals Automation","price":2500,"pitch":"Replace paper forms and email chains with tracked digital approvals.","features":["Multi-step approvals with e-signatures","Job cards, leave and purchase requests","Reminders, escalation and a full audit trail"],"timeline":"6–8 weeks","extras":"Hosting","proof":"Workflow engine powering six business products, from ticketing to performance reviews.","anchor":"#projects","image":"images/06-ec-flow-01.png","link":""},{"code":"EC-ASSET-01","tag":"Business systems","name":"Asset & Equipment Tracking","price":1200,"pitch":"Know who has every phone, laptop, POS unit or vehicle.","features":["Issue and return with approval sign-off","Fault tracking and live dashboard","Branded PDF reports"],"timeline":"3–5 weeks","extras":"Hosting","proof":"Tracks 300+ assets and reduced misplacement by 35%.","anchor":"#projects","image":"images/07-ec-asset-01.png","link":""},{"code":"EC-STAFF-01","tag":"Business systems","name":"Staff Deployment & Performance","price":2500,"pitch":"Schedule field staff and measure performance automatically.","features":["Daily and monthly performance scoring","Zone assignment and arrival check-in","Leave management and automated scheduling"],"timeline":"6–8 weeks","extras":"Hosting, and SMS charges","proof":"Runs 200+ staff across 200+ locations and improved deployment efficiency by about 40%.","anchor":"#projects","image":"images/08-ec-staff-01.png","link":""},{"code":"EC-APP-01","tag":"Mobile","name":"Mobile App (Android & iOS)","price":2500,"pitch":"A mobile app for your customers or staff, built for both platforms at once.","features":["GPS, maps and push notifications","Secure login and in-app payments","React Native or Flutter"],"timeline":"6–10 weeks","extras":"Hosting, plus Google Play and Apple developer accounts","proof":"Park-Check, a GPS smart-parking app with live countdowns and fine payments.","anchor":"#projects","image":"images/09-ec-app-01.png","link":""},{"code":"EC-GPS-01","tag":"Mapping","name":"GPS Tracking & Maps","price":2000,"pitch":"See your field staff or vehicles on a live map.","features":["Live location tracking","Geofenced zones with alerts","Map dashboards and reports"],"timeline":"4–6 weeks","extras":"GPS hardware, SIM and data charges, and hosting","proof":"Geofencing and live tracking platform for field staff.","anchor":"#projects","image":"images/10-ec-gps-01.png","link":""},{"code":"EC-INT-01","tag":"Integrations","name":"Payments & Notifications Setup","price":250,"pitch":"Add online payments and automatic alerts to your existing system.","features":["Paynow / EcoCash, Stripe or PayPal","SMS, email and WhatsApp alerts","Works with your current website or app"],"timeline":"1–2 weeks","extras":"Payment processing fees, and SMS or WhatsApp message charges","proof":"Multi-channel notification service sending SMS, email and WhatsApp alerts.","anchor":"#projects","image":"images/11-ec-int-01.png","link":""},{"code":"EC-BOT-01","tag":"WhatsApp","name":"WhatsApp Chatbot","price":500,"pitch":"Answer customers, take orders and handle bookings on WhatsApp, day and night.","features":["Menus, FAQs, orders and bookings in chat","Hand-over to a staff member when needed","Optional payments in chat: EcoCash and cards","Built on Meta's official WhatsApp Cloud API"],"timeline":"2–4 weeks","extras":"Meta's WhatsApp message fees, payment processing fees, a dedicated phone number, and hosting","proof":"Custom chatbots built with Node.js on the WhatsApp Business Cloud API.","anchor":"#contact","image":"images/12-ec-bot-01.png","link":""},{"code":"EC-DASH-01","tag":"Reporting","name":"Dashboards & Reports","price":400,"pitch":"Turn your spreadsheets and data into live dashboards.","features":["Charts and KPIs that update themselves","PDF and Excel exports","AI-written report summaries"],"timeline":"2–3 weeks","extras":"Hosting, and AI usage fees if AI summaries are included","proof":"Reporting engine with period comparisons and AI-generated summaries.","anchor":"#projects","image":"images/13-ec-dash-01.png","link":""},{"code":"EC-CARE-01","tag":"Support","name":"Monthly Support & Maintenance","price":50,"perMonth":true,"pitch":"Keep your website or system secure, backed up and up to date.","features":["Bug fixes and small changes","Backups, updates and monitoring","Priority response on WhatsApp"],"timeline":"Monthly, cancel any time","extras":"Each plan states its support hours, response times and backups","proof":"I maintain production systems used daily by hundreds of staff.","anchor":"#contact","image":"images/14-ec-care-01.png","link":""}];
+  const WA = '263787541207';
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  const usd = (n) => '$' + n.toLocaleString('en-US');
+  const price = (it) => '<small>From </small>' + usd(it.price) + (it.perMonth ? '<small> / month</small>' : '');
+  const chatLink = (it) => 'https://wa.me/' + WA + '?text=' + encodeURIComponent("Hi Elton, I'm interested in " + it.name + ' (' + it.code + ').');
+  const waIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>';
+
+  const list = document.getElementById('list');
+  const filters = document.getElementById('filters');
+  const dialog = document.getElementById('detail');
+  let active = 'All';
+  let visible = ITEMS;
+  let current = -1;
+
+  const tags = ['All', ...new Set(ITEMS.map((it) => it.tag))];
+  filters.innerHTML = tags.map((t) => '<button type="button" class="chip" aria-pressed="' + (t === active) + '">' + esc(t) + '</button>').join('');
+  filters.addEventListener('click', (e) => {
+    const b = e.target.closest('.chip');
+    if (!b) return;
+    active = b.textContent;
+    filters.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', String(c === b)));
+    renderList();
+  });
+
+  function renderList() {
+    visible = active === 'All' ? ITEMS : ITEMS.filter((it) => it.tag === active);
+    list.innerHTML = visible.map((it, i) =>
+      '<li><button type="button" class="row" data-i="' + i + '">' +
+        '<img src="' + it.image + '" alt="" width="88" height="88" loading="lazy">' +
+        '<span class="row-text">' +
+          '<span class="tag">' + esc(it.tag) + '</span>' +
+          '<span class="row-name">' + esc(it.name) + '</span>' +
+          '<span class="row-pitch">' + esc(it.pitch) + '</span>' +
+          '<span class="price">' + price(it) + '</span>' +
+        '</span>' +
+        '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>' +
+      '</button></li>').join('');
+  }
+  list.addEventListener('click', (e) => {
+    const r = e.target.closest('.row');
+    if (r) openItem(Number(r.dataset.i));
+  });
+
+  function openItem(i) {
+    current = i;
+    const it = visible[i];
+    dialog.innerHTML =
+      '<div class="detail">' +
+        '<img src="' + it.image + '" alt="' + esc(it.name) + ' cover image">' +
+        '<div class="d-body">' +
+          '<div class="d-head"><div><span class="tag">' + esc(it.tag) + '</span><h2 id="d-title">' + esc(it.name) + '</h2></div>' +
+            '<button type="button" class="icon-btn" data-act="close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
+          '<p class="price d-price">' + price(it) + '</p>' +
+          '<p>' + esc(it.pitch) + '</p>' +
+          '<h3>What\'s included</h3><ul>' + it.features.map((f) => '<li>' + esc(f) + '</li>').join('') + '</ul>' +
+          '<dl><dt>Timeline</dt><dd>' + esc(it.timeline) + '</dd><dt>Proof</dt><dd>' + esc(it.proof) + '</dd><dt>' + (it.perMonth ? 'Plan details' : 'Charged separately') + '</dt><dd>' + esc(it.extras) + '</dd><dt>Item code</dt><dd class="code">' + esc(it.code) + '</dd></dl>' +
+          '<p class="note">Final quote depends on your requirements.</p>' +
+          '<div class="d-actions">' +
+            '<a class="btn btn-wa" href="' + chatLink(it) + '" target="_blank" rel="noreferrer">' + waIcon + 'Ask about this on WhatsApp</a>' +
+            (it.link ? '<a class="btn btn-ghost" href="' + esc(it.link) + '" target="_blank" rel="noreferrer">See the portfolio</a>' : '') +
+          '</div>' +
+          '<div class="d-nav">' +
+            '<button type="button" class="nav-btn" data-act="prev"' + (i === 0 ? ' disabled' : '') + '>← ' + (i > 0 ? esc(visible[i - 1].name) : '') + '</button>' +
+            '<button type="button" class="nav-btn" data-act="next"' + (i === visible.length - 1 ? ' disabled' : '') + '>' + (i < visible.length - 1 ? esc(visible[i + 1].name) : '') + ' →</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    if (!dialog.open) dialog.showModal();
+    dialog.scrollTop = 0;
+    try { history.replaceState(null, '', '#' + it.code.toLowerCase()); } catch (e) {}
+  }
+
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) return dialog.close();
+    const act = e.target.closest('[data-act]')?.dataset.act;
+    if (act === 'close') dialog.close();
+    if (act === 'prev' && current > 0) openItem(current - 1);
+    if (act === 'next' && current < visible.length - 1) openItem(current + 1);
+  });
+  dialog.addEventListener('close', () => {
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!dialog.open) return;
+    if (e.key === 'ArrowLeft' && current > 0) openItem(current - 1);
+    if (e.key === 'ArrowRight' && current < visible.length - 1) openItem(current + 1);
+  });
+
+  renderList();
+  const start = ITEMS.findIndex((it) => it.code.toLowerCase() === location.hash.slice(1).toLowerCase());
+  if (start >= 0) openItem(start);
+</script>

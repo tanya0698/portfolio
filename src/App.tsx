@@ -1,3 +1,6 @@
+import { MotionConfig } from 'framer-motion'
+import Backdrop from './components/Backdrop'
+import BackToTop from './components/BackToTop'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -9,9 +12,11 @@ import Footer from './components/Footer'
 
 function App() {
   return (
-    <>
+    // reducedMotion="user": visitors who turn on "reduce motion" get fades without movement.
+    <MotionConfig reducedMotion="user">
+      <Backdrop />
       <Nav />
-      <main>
+      <main className="overflow-x-clip">
         <Hero />
         <About />
         <Skills />
@@ -20,7 +25,8 @@ function App() {
         <Contact />
       </main>
       <Footer />
-    </>
+      <BackToTop />
+    </MotionConfig>
   )
 }
 

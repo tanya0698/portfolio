@@ -1,32 +1,41 @@
 import { motion } from 'framer-motion'
 import { skillGroups } from '../data/skills'
+import { fadeUp, inView, pop, stagger, trackSpotlight } from '../lib/motion'
 
 export default function Skills() {
   return (
     <section id="skills" className="section !pt-0">
-      <div className="grid gap-6 sm:grid-cols-2">
-        {skillGroups.map((group, i) => (
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={inView}
+        variants={stagger(0.08)}
+        className="grid gap-6 sm:grid-cols-2"
+      >
+        {skillGroups.map((group) => (
           <motion.div
             key={group.title}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.4, delay: i * 0.05 }}
-            className="card p-5"
+            variants={fadeUp}
+            whileHover={{ y: -4 }}
+            onMouseMove={trackSpotlight}
+            className="card card-interactive p-5"
           >
-            <h3 className="font-mono text-xs uppercase tracking-wider text-accent2">
-              {group.title}
-            </h3>
-            <div className="mt-3 flex flex-wrap gap-2">
+            <h3 className="font-mono text-xs uppercase tracking-wider text-accent2">{group.title}</h3>
+            <motion.div variants={stagger(0.03, 0.15)} className="mt-3 flex flex-wrap gap-2">
               {group.items.map((item) => (
-                <span key={item} className="chip">
+                <motion.span
+                  key={item}
+                  variants={pop}
+                  whileHover={{ scale: 1.08 }}
+                  className="chip cursor-default transition-colors hover:border-accent/40 hover:text-accent"
+                >
                   {item}
-                </span>
+                </motion.span>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }

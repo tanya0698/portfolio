@@ -18,7 +18,8 @@
     --slate-400: 148 163 184;
     --slate-500: 100 116 139;
     --slate-600: 71 85 105;
-    --glow: 0.10;
+    --blob: 0.16;
+    --grid: 0.035;
   }
 
   /* Light theme: accents from the light Creedence logo (#0f766e, #4f46e5). */
@@ -36,7 +37,8 @@
     --slate-400: 71 85 105;
     --slate-500: 100 116 139;
     --slate-600: 148 163 184;
-    --glow: 0.08;
+    --blob: 0.12;
+    --grid: 0.05;
   }
 
   html {
@@ -45,15 +47,32 @@
 
   body {
     @apply bg-ink text-slate-200 font-sans antialiased;
-    background-image:
-      radial-gradient(circle at 15% 0%, rgb(45 212 191 / var(--glow)), transparent 40%),
-      radial-gradient(circle at 85% 20%, rgb(129 140 248 / var(--glow)), transparent 40%);
-    background-attachment: fixed;
+    /* Background glows and grid are drawn by <Backdrop />. */
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 
   ::selection {
     @apply bg-accent/30 text-white;
   }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tooltip[data-state='delayed-open'],
+  .tooltip[data-state='instant-open'] {
+    animation: tooltip-in 120ms ease-out;
+  }
+}
+
+/* Stop the decorative CSS loops for visitors who ask for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-drift-a, .animate-drift-b, .animate-drift-c, .animate-shimmer, .animate-bounce-soft, .animate-ping {
+    animation: none !important;
+  }
+}
+
+@keyframes tooltip-in {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @layer components {
@@ -71,5 +90,38 @@
 
   .chip {
     @apply rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-mono text-slate-300;
+  }
+
+  /* Faint "engine" grid that fades out towards the bottom of the screen. */
+  .grid-bg {
+    background-image:
+      linear-gradient(rgb(var(--contrast) / var(--grid)) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--contrast) / var(--grid)) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+  }
+
+  /* Accent gradient text that slowly shifts. */
+  .text-gradient {
+    @apply bg-clip-text text-transparent animate-shimmer;
+    background-image: linear-gradient(90deg, rgb(var(--accent)), rgb(var(--accent2)), rgb(var(--accent)));
+    background-size: 200% auto;
+  }
+
+  /* Cards with a glow that follows the cursor (position set by trackSpotlight). */
+  .card-interactive {
+    @apply relative isolate transition-[border-color,box-shadow] duration-300;
+  }
+  .card-interactive::before {
+    content: "";
+    @apply pointer-events-none absolute inset-0 -z-10 rounded-[inherit] opacity-0 transition-opacity duration-300;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(var(--accent) / 0.13), transparent 45%);
+  }
+  .card-interactive:hover {
+    border-color: rgb(var(--accent) / 0.35);
+    box-shadow: 0 18px 40px -20px rgb(var(--accent) / 0.35);
+  }
+  .card-interactive:hover::before {
+    opacity: 1;
   }
 }

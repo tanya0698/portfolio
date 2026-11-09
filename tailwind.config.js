@@ -27,6 +27,36 @@ export default {
           600: v('slate-600'),
         },
       },
+      keyframes: {
+        'drift-a': {
+          '0%': { transform: 'translate(0, 0) scale(1)' },
+          '50%': { transform: 'translate(12vw, 8vh) scale(1.15)' },
+          '100%': { transform: 'translate(4vw, 18vh) scale(0.95)' },
+        },
+        'drift-b': {
+          '0%': { transform: 'translate(0, 0) scale(1)' },
+          '50%': { transform: 'translate(-10vw, 14vh) scale(0.9)' },
+          '100%': { transform: 'translate(-4vw, -6vh) scale(1.1)' },
+        },
+        'drift-c': {
+          '0%': { transform: 'translate(0, 0) scale(1)' },
+          '100%': { transform: 'translate(-14vw, -10vh) scale(1.2)' },
+        },
+        shimmer: {
+          to: { backgroundPosition: '200% center' },
+        },
+        'bounce-soft': {
+          '0%, 100%': { transform: 'translateY(0)', opacity: '1' },
+          '50%': { transform: 'translateY(6px)', opacity: '0.4' },
+        },
+      },
+      animation: {
+        'drift-a': 'drift-a 26s ease-in-out infinite alternate',
+        'drift-b': 'drift-b 32s ease-in-out infinite alternate',
+        'drift-c': 'drift-c 22s ease-in-out infinite alternate',
+        shimmer: 'shimmer 6s linear infinite',
+        'bounce-soft': 'bounce-soft 1.8s ease-in-out infinite',
+      },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],

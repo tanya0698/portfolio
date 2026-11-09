@@ -3,6 +3,42 @@
 @tailwind utilities;
 
 @layer base {
+  /* Dark is the default; index.html sets class="light" from the saved choice or the system setting. */
+  :root {
+    color-scheme: dark;
+    --ink: 11 15 20;
+    --surface: 15 22 32;
+    --accent: 45 212 191;
+    --accent2: 129 140 248;
+    --contrast: 255 255 255;
+    --slate-50: 248 250 252;
+    --slate-100: 241 245 249;
+    --slate-200: 226 232 240;
+    --slate-300: 203 213 225;
+    --slate-400: 148 163 184;
+    --slate-500: 100 116 139;
+    --slate-600: 71 85 105;
+    --glow: 0.10;
+  }
+
+  /* Light theme: accents from the light Creedence logo (#0f766e, #4f46e5). */
+  :root.light {
+    color-scheme: light;
+    --ink: 248 250 252;
+    --surface: 255 255 255;
+    --accent: 15 118 110;
+    --accent2: 79 70 229;
+    --contrast: 15 23 42;
+    --slate-50: 15 23 42;
+    --slate-100: 30 41 59;
+    --slate-200: 51 65 85;
+    --slate-300: 51 65 85;
+    --slate-400: 71 85 105;
+    --slate-500: 100 116 139;
+    --slate-600: 148 163 184;
+    --glow: 0.08;
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -10,8 +46,8 @@
   body {
     @apply bg-ink text-slate-200 font-sans antialiased;
     background-image:
-      radial-gradient(circle at 15% 0%, rgba(45, 212, 191, 0.10), transparent 40%),
-      radial-gradient(circle at 85% 20%, rgba(129, 140, 248, 0.10), transparent 40%);
+      radial-gradient(circle at 15% 0%, rgb(45 212 191 / var(--glow)), transparent 40%),
+      radial-gradient(circle at 85% 20%, rgb(129 140 248 / var(--glow)), transparent 40%);
     background-attachment: fixed;
   }
 

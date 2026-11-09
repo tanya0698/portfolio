@@ -1,3 +1,5 @@
+import ThemeToggle from './ThemeToggle'
+
 const LINKS = [
   { href: '#about', label: 'About' },
   { href: '#projects', label: 'Projects' },
@@ -24,14 +26,17 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-        <a
-          href="./docs/resume.html"
-          target="_blank"
-          rel="noreferrer"
-          className="chip hover:border-accent/40 hover:text-accent transition-colors"
-        >
-          Resume
-        </a>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <a
+            href="./docs/resume.html"
+            target="_blank"
+            rel="noreferrer"
+            className="chip hover:border-accent/40 hover:text-accent transition-colors"
+          >
+            Resume
+          </a>
+        </div>
       </nav>
     </header>
   )

@@ -611,6 +611,17 @@ function buildPreview() {
   :root[data-theme="light"] .mark-dark { display: none; }
   :root[data-theme="light"] .mark-light { display: block; }
   .theme-btn { margin-left: auto; }
+
+  /* Tooltips for icon-only buttons: shown on hover and keyboard focus, text from data-tip. */
+  [data-tip] { position: relative; }
+  [data-tip]::after {
+    content: attr(data-tip); position: absolute; top: calc(100% + 8px); right: 0; z-index: 10;
+    white-space: nowrap; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--fg); font: 500 0.75rem/1.2 var(--sans);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18); opacity: 0; transform: translateY(-2px); pointer-events: none;
+  }
+  [data-tip]:hover::after, [data-tip]:focus-visible::after { opacity: 1; transform: none; transition: opacity 0.12s 0.25s, transform 0.12s 0.25s; }
+  @media (hover: none) { [data-tip]:hover::after { opacity: 0; } }
   h1 { margin: 0; font-size: clamp(2rem, 6vw, 2.75rem); line-height: 1.1; letter-spacing: -0.02em; font-weight: 800; text-wrap: balance; }
   .lede { margin: 0; color: var(--muted); max-width: 60ch; }
   .contact { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 6px; }
@@ -696,7 +707,7 @@ function buildPreview() {
 
 <header class="wrap hero">
   <div class="logo">${creedenceMark("hero-d", 48, false, "mark-dark")}${creedenceMark("hero-l", 48, true, "mark-light")}<span>${BRAND}</span>
-    <button type="button" class="icon-btn theme-btn" id="theme" aria-label="Switch theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+    <button type="button" class="icon-btn theme-btn" id="theme" aria-label="Switch theme" data-tip="Switch theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
   </div>
   <p class="eyebrow">Services catalogue</p>
   <h1>${TAGLINE}</h1>
@@ -775,7 +786,7 @@ function buildPreview() {
         '<img src="' + imageFor(it) + '" alt="' + esc(it.name) + ' cover image">' +
         '<div class="d-body">' +
           '<div class="d-head"><div><span class="tag">' + esc(it.tag) + '</span><h2 id="d-title">' + esc(it.name) + '</h2></div>' +
-            '<button type="button" class="icon-btn" data-act="close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
+            '<button type="button" class="icon-btn" data-act="close" aria-label="Close" data-tip="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
           '<p class="price d-price">' + price(it) + '</p>' +
           '<p>' + esc(it.pitch) + '</p>' +
           '<h3>What\\'s included</h3><ul>' + it.features.map((f) => '<li>' + esc(f) + '</li>').join('') + '</ul>' +
@@ -817,7 +828,11 @@ function buildPreview() {
   try { const saved = localStorage.getItem("theme"); if (saved === "light" || saved === "dark") root.dataset.theme = saved; } catch (e) {}
   const isLight = () => root.dataset.theme ? root.dataset.theme === "light" : matchMedia("(prefers-color-scheme: light)").matches;
   const themeBtn = document.getElementById("theme");
-  const labelTheme = () => themeBtn.setAttribute("aria-label", isLight() ? "Switch to dark theme" : "Switch to light theme");
+  const labelTheme = () => {
+    const label = isLight() ? "Switch to dark mode" : "Switch to light mode";
+    themeBtn.setAttribute("aria-label", label);
+    themeBtn.dataset.tip = label;
+  };
   themeBtn.addEventListener("click", () => {
     root.dataset.theme = isLight() ? "dark" : "light";
     try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}

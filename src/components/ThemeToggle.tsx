@@ -1,5 +1,7 @@
+import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { Moon, Sun } from './icons'
+import Tooltip from './Tooltip'
 
 type Theme = 'light' | 'dark'
 
@@ -33,15 +35,28 @@ export default function ThemeToggle() {
   }
 
   const Icon = theme === 'light' ? Moon : Sun
+  const label = theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'
   return (
-    <button
-      type="button"
-      onClick={toggle}
-      aria-label={theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
-      title={theme === 'light' ? 'Dark theme' : 'Light theme'}
-      className="chip flex h-7 w-7 items-center justify-center !p-0 hover:border-accent/40 hover:text-accent transition-colors"
-    >
-      <Icon className="h-3.5 w-3.5" />
-    </button>
+    <Tooltip content={label}>
+      <button
+        type="button"
+        onClick={toggle}
+        aria-label={label}
+        className="chip flex h-7 w-7 items-center justify-center !p-0 hover:border-accent/40 hover:text-accent transition-colors"
+      >
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span
+            key={theme}
+            initial={{ rotate: -90, scale: 0, opacity: 0 }}
+            animate={{ rotate: 0, scale: 1, opacity: 1 }}
+            exit={{ rotate: 90, scale: 0, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="flex"
+          >
+            <Icon className="h-3.5 w-3.5" />
+          </motion.span>
+        </AnimatePresence>
+      </button>
+    </Tooltip>
   )
 }

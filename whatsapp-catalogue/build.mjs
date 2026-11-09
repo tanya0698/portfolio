@@ -17,7 +17,40 @@ const PORTFOLIO_URL = 'https://YOUR-PORTFOLIO-URL'
 const WHATSAPP_NUMBER = '263787541207'
 // Shown on the promo image and the preview page.
 const PHONE_NUMBERS = ['+263 78 754 1207', '+263 71 830 1187']
-const PHONE_ICON = '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>'
+// Brand. Logo files live in brand/ at the repo root; the colours below are taken from them.
+const BRAND = 'Creedence'
+const TAGLINE = 'The digital engine behind your growth.'
+const OWNER = 'Elton Chipuka'
+const C = {
+  bg: '#0b0f14',
+  mint: '#5eead4',
+  teal: '#2dd4bf',
+  indigo: '#818cf8',
+  indigoLight: '#a5b4fc',
+  text: '#e2e8f0',
+  white: '#f8fafc',
+  muted: '#94a3b8',
+  dim: '#64748b',
+  line: 'rgba(255, 255, 255, 0.1)',
+}
+
+// The Creedence icon (C ring, code brackets, growth arrow), from brand/creedence-icon.svg
+// without its background. `id` keeps the gradient id unique when a page uses the mark twice.
+// Pass light = true for the light-background colours from brand/creedence-logo-light.svg.
+function creedenceMark(id = 'cm', size = 64, light = false, cls = '') {
+  const teal = light ? '#0f766e' : C.mint
+  const indigo = light ? '#4f46e5' : C.indigo
+  return `<svg${cls ? ` class="${cls}"` : ''} viewBox="318 318 364 364" width="${size}" height="${size}" aria-hidden="true">
+  <defs><linearGradient id="${id}-ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${teal}"/><stop offset="1" stop-color="${indigo}"/></linearGradient></defs>
+  <path d="M592.35 618.2 A150 150 0 1 1 592.35 381.8" fill="none" stroke="url(#${id}-ring)" stroke-width="44" stroke-linecap="round"/>
+  <polyline points="446,446 392,500 446,554" fill="none" stroke="${teal}" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="554,446 608,500 554,554" fill="none" stroke="${teal}" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M476 566 L514.21 454.7" fill="none" stroke="${indigo}" stroke-width="22" stroke-linecap="round"/>
+  <polygon points="527.84,414.98 540.63,470.12 483.88,450.63" fill="${indigo}" stroke="${indigo}" stroke-width="8" stroke-linejoin="round"/>
+</svg>`
+}
+
+const PHONE_ICON ='<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>'
 
 const items = [
   {
@@ -25,7 +58,7 @@ const items = [
     tag: 'Websites',
     name: 'Business Website',
     price: 300,
-    pitch: 'A fast, professional website that sends enquiries straight to your WhatsApp.',
+    pitch: 'A fast, professional website that turns visitors into WhatsApp enquiries.',
     features: [
       'Up to 5 pages, designed mobile-first',
       'WhatsApp chat button and contact form',
@@ -42,7 +75,7 @@ const items = [
     tag: 'E-commerce',
     name: 'Online Store with Payments',
     price: 600,
-    pitch: 'Sell online with a product catalogue, cart and secure checkout.',
+    pitch: 'Sell around the clock with a product catalogue, cart and secure checkout.',
     features: [
       'Paynow (EcoCash, cards), Stripe or PayPal',
       'Quote requests and order tracking',
@@ -58,10 +91,10 @@ const items = [
     tag: 'Business systems',
     name: 'Custom ERP / Business System',
     price: 6000,
-    pitch: 'One system to run your business, with single sign-on for every staff member.',
+    pitch: 'One connected system for your whole business, built to scale as you grow.',
     features: [
       'CRM, helpdesk, tasks, staff, assets, payments',
-      'Role-based access by department',
+      'Single sign-on and role-based access by department',
       'Dashboards and PDF reports, works on phones',
     ],
     timeline: '2–4 months, delivered in phases',
@@ -74,7 +107,7 @@ const items = [
     tag: 'Business systems',
     name: 'Helpdesk & Ticketing System',
     price: 1500,
-    pitch: 'Track every support request from open to closed, with nothing slipping through.',
+    pitch: 'Resolve every support request faster, with nothing slipping through.',
     features: [
       'Automatic assignment and SLA targets',
       'Escalation when tickets run late',
@@ -90,7 +123,7 @@ const items = [
     tag: 'Business systems',
     name: 'CRM & Customer Query System',
     price: 1500,
-    pitch: 'Log, route and resolve customer queries faster.',
+    pitch: 'Log, route and resolve customer queries faster, and keep customers coming back.',
     features: [
       'Full customer and query history',
       'SLA breach alerts',
@@ -106,7 +139,7 @@ const items = [
     tag: 'Automation',
     name: 'Workflow & Approvals Automation',
     price: 2500,
-    pitch: 'Replace paper forms and email chains with tracked digital approvals.',
+    pitch: 'Replace paper forms and email chains with fast, tracked digital approvals.',
     features: [
       'Multi-step approvals with e-signatures',
       'Job cards, leave and purchase requests',
@@ -154,7 +187,7 @@ const items = [
     tag: 'Mobile',
     name: 'Mobile App (Android & iOS)',
     price: 2500,
-    pitch: 'A mobile app for your customers or staff, built for both platforms at once.',
+    pitch: 'Reach customers and staff on their phones, on Android and iOS at once.',
     features: [
       'GPS, maps and push notifications',
       'Secure login and in-app payments',
@@ -186,7 +219,7 @@ const items = [
     tag: 'Integrations',
     name: 'Payments & Notifications Setup',
     price: 250,
-    pitch: 'Add online payments and automatic alerts to your existing system.',
+    pitch: 'Get paid online and keep customers informed automatically.',
     features: [
       'Paynow / EcoCash, Stripe or PayPal',
       'SMS, email and WhatsApp alerts',
@@ -219,7 +252,7 @@ const items = [
     tag: 'Reporting',
     name: 'Dashboards & Reports',
     price: 400,
-    pitch: 'Turn your spreadsheets and data into live dashboards.',
+    pitch: 'Turn your spreadsheets into live dashboards that show where to grow.',
     features: [
       'Charts and KPIs that update themselves',
       'PDF and Excel exports',
@@ -236,7 +269,7 @@ const items = [
     name: 'Monthly Support & Maintenance',
     price: 50,
     perMonth: true,
-    pitch: 'Keep your website or system secure, backed up and up to date.',
+    pitch: 'Keep your website or system secure, backed up and growing with you.',
     features: [
       'Bug fixes and small changes',
       'Backups, updates and monitoring',
@@ -302,9 +335,18 @@ function buildMarkdown() {
     })
     .join('\n\n')
 
-  return `# WhatsApp Business Catalogue
+  return `# ${BRAND}: WhatsApp Business Catalogue
 
 Generated by \`build.mjs\`. Edit the items there and rerun; don't edit this file by hand.
+
+**Business profile** (WhatsApp Business → Settings → Business tools → Business profile):
+
+| Field | Value |
+| --- | --- |
+| Name | ${BRAND} |
+| Category | IT Services |
+| Description | ${TAGLINE} Websites, online stores, business systems, mobile apps and WhatsApp chatbots, built in Harare by ${OWNER}. |
+| Profile photo | \`brand/creedence-icon.png\` (the icon reads best at WhatsApp's small circular size) |
 
 **Adding items:** WhatsApp Business → Tools (or Settings → Business tools) → Catalogue → Add new item.
 Upload the image, then copy each field below. Prices are suggested starting prices; change them in \`build.mjs\`.
@@ -323,44 +365,67 @@ function escapeHtml(s) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
 
-function cardHtml(item, index) {
-  const features = item.features.map((f) => `<li><span class="tick">✓</span>${escapeHtml(f)}</li>`).join('')
-  return `<!doctype html>
-<html><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<style>
+// Shared look for the 1080x1080 images. Dark matches the dark logo (near-black with mint and
+// indigo glows); body.light matches the light logo (#0f766e teal, #4f46e5 indigo on white).
+const IMAGE_FONTS = '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">'
+const IMAGE_BASE_CSS = `
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 1080px; height: 1080px; overflow: hidden; }
   body {
-    font-family: Inter, 'Segoe UI', system-ui, sans-serif;
-    color: #e2e8f0;
+    --bg: ${C.bg}; --text: ${C.text}; --head: ${C.white}; --li: #cbd5e1; --muted: ${C.muted}; --dim: ${C.dim};
+    --line: ${C.line}; --accent: ${C.mint}; --tick: ${C.teal}; --tick-bg: rgba(45, 212, 191, 0.16);
+    --tag: ${C.indigoLight}; --tag-bg: rgba(129, 140, 248, 0.08); --tag-border: rgba(129, 140, 248, 0.45);
+    --tile-bg: rgba(255, 255, 255, 0.04); --icon-bg: rgba(45, 212, 191, 0.12);
+    --glow-t: rgba(45, 212, 191, 0.20); --glow-i: rgba(129, 140, 248, 0.20);
+    position: relative;
+    font-family: Inter, 'Segoe UI', system-ui, sans-serif; color: var(--text);
     background:
-      radial-gradient(circle at 12% 0%, rgba(45, 212, 191, 0.22), transparent 45%),
-      radial-gradient(circle at 92% 18%, rgba(129, 140, 248, 0.20), transparent 45%),
-      #0b0f14;
-    padding: 84px 88px;
-    display: flex; flex-direction: column;
+      radial-gradient(circle at 10% 0%, var(--glow-t), transparent 45%),
+      radial-gradient(circle at 92% 18%, var(--glow-i), transparent 45%),
+      var(--bg);
   }
+  body.light {
+    --bg: #f8fafc; --text: #334155; --head: #0f172a; --li: #334155; --muted: #475569; --dim: #64748b;
+    --line: rgba(15, 23, 42, 0.1); --accent: #0f766e; --tick: #0f766e; --tick-bg: rgba(15, 118, 110, 0.1);
+    --tag: #4f46e5; --tag-bg: rgba(79, 70, 229, 0.06); --tag-border: rgba(79, 70, 229, 0.35);
+    --tile-bg: #ffffff; --icon-bg: rgba(15, 118, 110, 0.08);
+    --glow-t: rgba(45, 212, 191, 0.16); --glow-i: rgba(129, 140, 248, 0.16);
+  }
+  body.light .tile { box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04); }
   .mono { font-family: 'JetBrains Mono', Consolas, monospace; }
-  .top { display: flex; justify-content: space-between; align-items: center; font-size: 26px; letter-spacing: 0.18em; text-transform: uppercase; }
-  .brand { color: #2dd4bf; font-weight: 700; }
-  .count { color: #64748b; }
-  .main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 32px 0; }
-  .tag { display: inline-block; align-self: flex-start; font-size: 24px; color: #a5b4fc; border: 2px solid rgba(129, 140, 248, 0.45); border-radius: 999px; padding: 8px 22px; margin-bottom: 30px; letter-spacing: 0.08em; text-transform: uppercase; }
-  h1 { font-size: 80px; line-height: 1.04; font-weight: 800; color: #f8fafc; letter-spacing: -0.02em; }
-  .pitch { font-size: 33px; line-height: 1.35; color: #94a3b8; margin-top: 26px; max-width: 880px; }
+  .brand { display: flex; align-items: center; gap: 18px; }
+  .word { font-family: Inter, 'Segoe UI', sans-serif; font-weight: 800; font-size: 30px; letter-spacing: 0.2em; color: var(--head); text-transform: uppercase; }
+  .watermark { position: absolute; right: -170px; bottom: -170px; opacity: 0.06; pointer-events: none; }
+  .content { position: relative; height: 100%; display: flex; flex-direction: column; }
+`
+
+function cardHtml(item, index, light = false) {
+  const features = item.features.map((f) => `<li><span class="tick">✓</span>${escapeHtml(f)}</li>`).join('')
+  return `<!doctype html>
+<html><head><meta charset="utf-8">
+${IMAGE_FONTS}
+<style>${IMAGE_BASE_CSS}
+  .content { padding: 80px 88px; }
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  .count { color: var(--dim); font-size: 26px; letter-spacing: 0.18em; }
+  .main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 28px 0; }
+  .tag { display: inline-block; align-self: flex-start; font-size: 24px; color: var(--tag); background: var(--tag-bg); border: 2px solid var(--tag-border); border-radius: 999px; padding: 8px 22px; margin-bottom: 30px; letter-spacing: 0.08em; text-transform: uppercase; }
+  h1 { font-size: 80px; line-height: 1.04; font-weight: 800; color: var(--head); letter-spacing: -0.02em; }
+  .pitch { font-size: 33px; line-height: 1.35; color: var(--muted); margin-top: 26px; max-width: 880px; }
   ul { list-style: none; margin-top: 40px; display: grid; gap: 16px; }
-  li { font-size: 31px; color: #cbd5e1; display: flex; align-items: center; gap: 18px; }
-  .tick { display: inline-flex; width: 40px; height: 40px; border-radius: 50%; background: rgba(45, 212, 191, 0.16); color: #2dd4bf; font-size: 24px; font-weight: 700; align-items: center; justify-content: center; flex: none; }
-  .bottom { display: flex; justify-content: space-between; align-items: flex-end; border-top: 2px solid rgba(255, 255, 255, 0.1); padding-top: 34px; }
-  .from { font-size: 24px; color: #64748b; letter-spacing: 0.18em; text-transform: uppercase; }
-  .price { font-size: 84px; font-weight: 800; color: #2dd4bf; line-height: 1; margin-top: 8px; }
-  .price small { font-size: 36px; font-weight: 600; color: #5eead4; }
-  .cta { text-align: right; font-size: 26px; color: #94a3b8; line-height: 1.5; }
-  .cta strong { color: #f8fafc; font-weight: 600; }
+  li { font-size: 31px; color: var(--li); display: flex; align-items: center; gap: 18px; }
+  .tick { display: inline-flex; width: 40px; height: 40px; border-radius: 50%; background: var(--tick-bg); color: var(--tick); font-size: 24px; font-weight: 700; align-items: center; justify-content: center; flex: none; }
+  .bottom { display: flex; justify-content: space-between; align-items: flex-end; border-top: 2px solid var(--line); padding-top: 34px; }
+  .from { font-size: 24px; color: var(--dim); letter-spacing: 0.18em; text-transform: uppercase; }
+  .price { font-size: 84px; font-weight: 800; color: var(--accent); line-height: 1; margin-top: 8px; }
+  .price small { font-size: 36px; font-weight: 600; color: var(--accent); }
+  .cta { text-align: right; font-size: 26px; color: var(--muted); line-height: 1.5; }
+  .cta strong { color: var(--head); font-weight: 600; }
 </style></head>
-<body>
-  <div class="top mono"><span class="brand">Elton Chipuka</span><span class="count">${String(index + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}</span></div>
+<body${light ? ' class="light"' : ''}>
+  <div class="watermark">${creedenceMark('wm', 560, light)}</div>
+  <div class="content">
+  <div class="top"><span class="brand">${creedenceMark('cm', 64, light)}<span class="word">${BRAND}</span></span><span class="count mono">${String(index + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}</span></div>
   <div class="main">
     <span class="tag mono">${escapeHtml(item.tag)}</span>
     <h1>${escapeHtml(item.name)}</h1>
@@ -369,7 +434,8 @@ function cardHtml(item, index) {
   </div>
   <div class="bottom">
     <div><div class="from mono">From</div><div class="price">${usd(item.price)}${item.perMonth ? '<small> /month</small>' : ''}</div></div>
-    <div class="cta"><strong>Full-stack developer</strong><br>Harare · Message for a quote</div>
+    <div class="cta"><strong>The digital engine<br>behind your growth</strong><br>Harare · Message for a quote</div>
+  </div>
   </div>
 </body></html>`
 }
@@ -401,7 +467,7 @@ const PROMO = [
 // Set to true to show each service's starting price on the promo image.
 const PROMO_SHOW_PRICES = false
 
-function promoHtml() {
+function promoHtml(light = false) {
   const tiles = PROMO.map(([code, label, icon]) => {
     const item = items.find((it) => it.code === code)
     const price = PROMO_SHOW_PRICES ? `<div class="price"><span>from</span> ${usd(item.price)}</div>` : ''
@@ -413,44 +479,36 @@ function promoHtml() {
   }).join('')
   return `<!doctype html>
 <html><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 1080px; height: 1080px; overflow: hidden; }
-  body {
-    font-family: Inter, 'Segoe UI', system-ui, sans-serif; color: #e2e8f0;
-    background:
-      radial-gradient(circle at 12% 0%, rgba(45, 212, 191, 0.22), transparent 45%),
-      radial-gradient(circle at 92% 18%, rgba(129, 140, 248, 0.20), transparent 45%),
-      #0b0f14;
-    padding: 76px 80px; display: flex; flex-direction: column; gap: 44px;
-  }
-  .mono { font-family: 'JetBrains Mono', Consolas, monospace; }
-  .top { font-size: 24px; letter-spacing: 0.18em; text-transform: uppercase; color: #2dd4bf; font-weight: 700; }
-  h1 { font-size: 72px; line-height: 1.05; font-weight: 800; color: #f8fafc; letter-spacing: -0.02em; margin-top: 18px; }
-  h1 em { font-style: normal; color: #2dd4bf; }
+${IMAGE_FONTS}
+<style>${IMAGE_BASE_CSS}
+  .content { padding: 72px 80px; gap: 40px; }
+  h1 { font-size: 70px; line-height: 1.05; font-weight: 800; color: var(--head); letter-spacing: -0.02em; margin-top: 30px; }
+  h1 em { font-style: normal; color: var(--accent); }
   .grid { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 20px; }
-  .tile { background: rgba(255, 255, 255, 0.04); border: 2px solid rgba(255, 255, 255, 0.09); border-radius: 24px; padding: 30px 26px; display: flex; flex-direction: column; }
-  .tile svg { width: 60px; height: 60px; color: #2dd4bf; background: rgba(45, 212, 191, 0.12); border-radius: 16px; padding: 12px; box-sizing: content-box; }
-  .label { font-size: 31px; font-weight: 700; color: #f8fafc; line-height: 1.15; margin-top: auto; padding-top: 22px; }
-  .price { font-size: 26px; font-weight: 700; color: #5eead4; margin-top: 10px; font-variant-numeric: tabular-nums; }
-  .price span { color: #94a3b8; font-weight: 500; }
-  .bottom { display: flex; justify-content: space-between; align-items: center; border-top: 2px solid rgba(255, 255, 255, 0.1); padding-top: 30px; }
-  .who { font-size: 26px; color: #94a3b8; line-height: 1.45; }
-  .who strong { color: #f8fafc; font-weight: 700; }
+  .tile { background: var(--tile-bg); border: 2px solid var(--line); border-radius: 24px; padding: 28px 26px; display: flex; flex-direction: column; }
+  .tile svg { width: 56px; height: 56px; color: var(--accent); background: var(--icon-bg); border-radius: 16px; padding: 12px; box-sizing: content-box; }
+  .label { font-size: 30px; font-weight: 700; color: var(--head); line-height: 1.15; margin-top: auto; padding-top: 20px; }
+  .price { font-size: 26px; font-weight: 700; color: var(--accent); margin-top: 10px; font-variant-numeric: tabular-nums; }
+  .price span { color: var(--muted); font-weight: 500; }
+  .bottom { display: flex; justify-content: space-between; align-items: center; border-top: 2px solid var(--line); padding-top: 28px; }
+  .who { font-size: 26px; color: var(--muted); line-height: 1.45; }
+  .who strong { color: var(--head); font-weight: 700; }
   .phones { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
-  .phone { display: flex; align-items: center; gap: 12px; font-size: 30px; font-weight: 700; color: #f8fafc; font-variant-numeric: tabular-nums; }
-  .phone svg { width: 26px; height: 26px; color: #2dd4bf; }
+  .phone { display: flex; align-items: center; gap: 12px; font-size: 30px; font-weight: 700; color: var(--head); font-variant-numeric: tabular-nums; }
+  .phone svg { width: 26px; height: 26px; color: var(--accent); }
 </style></head>
-<body>
+<body${light ? ' class="light"' : ''}>
+  <div class="watermark">${creedenceMark('wm', 560, light)}</div>
+  <div class="content">
   <div>
-    <div class="top mono">Elton Chipuka · Software developer</div>
-    <h1>Software that runs<br>your <em>business</em>.</h1>
+    <div class="brand">${creedenceMark('cm', 64, light)}<span class="word">${BRAND}</span></div>
+    <h1>The digital engine<br>behind your <em>growth</em>.</h1>
   </div>
   <div class="grid">${tiles}</div>
   <div class="bottom">
-    <div class="who"><strong>Harare, Zimbabwe</strong><br>Message for a free quote</div>
+    <div class="who"><strong>${BRAND} by ${OWNER}</strong><br>Harare · Message for a free quote</div>
     <div class="phones">${PHONE_NUMBERS.map((n) => `<div class="phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${PHONE_ICON}</svg>${n}</div>`).join('')}</div>
+  </div>
   </div>
 </body></html>`
 }
@@ -476,16 +534,22 @@ function buildImages({ promoOnly = false } = {}) {
   mkdirSync(imagesDir, { recursive: true })
   const work = mkdtempSync(join(tmpdir(), 'wa-catalogue-'))
 
+  // Light versions sit in images-light/ with the same file names.
+  const lightDir = join(OUT_DIR, 'images-light')
+  mkdirSync(lightDir, { recursive: true })
+
   if (!promoOnly) {
     items.forEach((item, i) => {
       const file = fileBase(item, i)
       screenshot(browser, work, cardHtml(item, i), join(imagesDir, `${file}.png`))
-      console.log(`images/${file}.png`)
+      screenshot(browser, work, cardHtml(item, i, true), join(lightDir, `${file}.png`))
+      console.log(`images/${file}.png + images-light/${file}.png`)
     })
   }
   // Kept outside images/ so it isn't mistaken for a catalogue item.
   screenshot(browser, work, promoHtml(), join(OUT_DIR, 'services-promo.png'))
-  console.log('services-promo.png')
+  screenshot(browser, work, promoHtml(true), join(OUT_DIR, 'services-promo-light.png'))
+  console.log('services-promo.png + services-promo-light.png')
 }
 
 // Browsable preview of the catalogue (preview.html + images/), shareable as a link.
@@ -493,12 +557,13 @@ function buildPreview() {
   const data = items.map((item, i) => ({
     ...item,
     image: `images/${fileBase(item, i)}.png`,
+    imageLight: `images-light/${fileBase(item, i)}.png`,
     link: hasPortfolio ? `${PORTFOLIO_URL}/${item.anchor}` : '',
   }))
   const json = JSON.stringify(data).replace(/</g, '\\u003c')
   const chat = (text) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`
 
-  return `<title>Elton Chipuka Services</title>
+  return `<title>${BRAND} Services</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
@@ -535,6 +600,17 @@ function buildPreview() {
   .hero { padding-block: 56px 28px; display: grid; gap: 14px; }
   .eyebrow, .tag, .code { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; }
   .eyebrow { color: var(--accent); margin: 0; font-weight: 700; }
+  .logo { display: flex; align-items: center; gap: 12px; margin: 0; }
+  .logo span { font-family: var(--sans); font-weight: 800; font-size: 1.25rem; letter-spacing: 0.2em; color: var(--fg); text-transform: uppercase; }
+  /* Two copies of the mark: dark-logo colours by default, light-logo colours in the light theme. */
+  .mark-light { display: none; }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .mark-dark { display: none; }
+    :root:not([data-theme="dark"]) .mark-light { display: block; }
+  }
+  :root[data-theme="light"] .mark-dark { display: none; }
+  :root[data-theme="light"] .mark-light { display: block; }
+  .theme-btn { margin-left: auto; }
   h1 { margin: 0; font-size: clamp(2rem, 6vw, 2.75rem); line-height: 1.1; letter-spacing: -0.02em; font-weight: 800; text-wrap: balance; }
   .lede { margin: 0; color: var(--muted); max-width: 60ch; }
   .contact { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 6px; }
@@ -619,11 +695,14 @@ function buildPreview() {
 </style>
 
 <header class="wrap hero">
+  <div class="logo">${creedenceMark("hero-d", 48, false, "mark-dark")}${creedenceMark("hero-l", 48, true, "mark-light")}<span>${BRAND}</span>
+    <button type="button" class="icon-btn theme-btn" id="theme" aria-label="Switch theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
+  </div>
   <p class="eyebrow">Services catalogue</p>
-  <h1>Elton Chipuka</h1>
-  <p class="lede">Full-stack developer in Harare, Zimbabwe. I build websites, online stores, business systems and mobile apps. Prices are starting prices in US dollars; message me for a quote that fits your requirements.</p>
+  <h1>${TAGLINE}</h1>
+  <p class="lede">${BRAND} builds websites, online stores, business systems and mobile apps that help growing businesses sell more and run smoothly. Founded by ${OWNER}, a full-stack developer in Harare, Zimbabwe. Prices are starting prices in US dollars; message me for a quote that fits your requirements.</p>
   <div class="contact">
-    <a class="btn btn-wa" href="${chat('Hi Elton, I saw your services catalogue and would like to discuss a project.')}" target="_blank" rel="noreferrer">
+    <a class="btn btn-wa" href="${chat('Hi Elton, I saw the ${BRAND} services catalogue and would like to discuss a project.')}" target="_blank" rel="noreferrer">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
       Chat on WhatsApp
     </a>
@@ -673,7 +752,7 @@ function buildPreview() {
     visible = active === 'All' ? ITEMS : ITEMS.filter((it) => it.tag === active);
     list.innerHTML = visible.map((it, i) =>
       '<li><button type="button" class="row" data-i="' + i + '">' +
-        '<img src="' + it.image + '" alt="" width="88" height="88" loading="lazy">' +
+        '<img src="' + imageFor(it) + '" alt="" width="88" height="88" loading="lazy">' +
         '<span class="row-text">' +
           '<span class="tag">' + esc(it.tag) + '</span>' +
           '<span class="row-name">' + esc(it.name) + '</span>' +
@@ -693,7 +772,7 @@ function buildPreview() {
     const it = visible[i];
     dialog.innerHTML =
       '<div class="detail">' +
-        '<img src="' + it.image + '" alt="' + esc(it.name) + ' cover image">' +
+        '<img src="' + imageFor(it) + '" alt="' + esc(it.name) + ' cover image">' +
         '<div class="d-body">' +
           '<div class="d-head"><div><span class="tag">' + esc(it.tag) + '</span><h2 id="d-title">' + esc(it.name) + '</h2></div>' +
             '<button type="button" class="icon-btn" data-act="close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
@@ -732,6 +811,27 @@ function buildPreview() {
     if (e.key === 'ArrowLeft' && current > 0) openItem(current - 1);
     if (e.key === 'ArrowRight' && current < visible.length - 1) openItem(current + 1);
   });
+
+  // Theme toggle: starts from the system setting; a saved choice wins.
+  const root = document.documentElement;
+  try { const saved = localStorage.getItem("theme"); if (saved === "light" || saved === "dark") root.dataset.theme = saved; } catch (e) {}
+  const isLight = () => root.dataset.theme ? root.dataset.theme === "light" : matchMedia("(prefers-color-scheme: light)").matches;
+  const themeBtn = document.getElementById("theme");
+  const labelTheme = () => themeBtn.setAttribute("aria-label", isLight() ? "Switch to dark theme" : "Switch to light theme");
+  themeBtn.addEventListener("click", () => {
+    root.dataset.theme = isLight() ? "dark" : "light";
+    try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+    onTheme();
+  });
+  // Show the cover images that match the theme.
+  function imageFor(it) { return isLight() ? it.imageLight : it.image; }
+  function onTheme() {
+    labelTheme();
+    renderList();
+    if (dialog.open) openItem(current);
+  }
+  matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => { if (!root.dataset.theme) onTheme(); });
+  labelTheme();
 
   renderList();
   const start = ITEMS.findIndex((it) => it.code.toLowerCase() === location.hash.slice(1).toLowerCase());

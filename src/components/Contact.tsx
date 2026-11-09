@@ -63,7 +63,7 @@ export default function Contact() {
             rel="noreferrer"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline"
           >
-            Services &amp; prices on WhatsApp
+            Creedence services &amp; prices on WhatsApp
             <ArrowUpRight className="h-4 w-4" />
           </a>
         </div>
